@@ -1,75 +1,62 @@
-# React + TypeScript + Vite
+## WhosTurn
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+WhosTurn is a small web app for keeping track of whose turn it is — useful for games, chores, or any shared tasks where people take turns. It provides simple authentication, group management, and lightweight notifications so groups can rotate turns without friction.
 
-Currently, two official plugins are available:
+### Key features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Email/password authentication and session management
+- Create and manage groups (members, turn order)
+- Assign and rotate turns within a group
+- Push/visual notifications when it's a user's turn (via in-app notifications)
+- Simple, responsive UI built with React + TypeScript
 
-## React Compiler
+### Tech stack
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+- Frontend: React, TypeScript, Vite
+- Backend / Realtime & Auth: Supabase (client in `src/lib/supabase.ts`)
+- App structure: Components (e.g. `AuthForm.tsx`, `CreateGroupModal.tsx`), Context (`AuthContext.tsx`), custom hooks (`useGroups`, `useNotifications`)
+- Styling: PostCSS (project already includes `postcss.config.mjs`)
 
-Note: This will impact Vite dev & build performances.
+### Quick start
 
-## Expanding the ESLint configuration
+1. Install dependencies
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+2. Provide Supabase environment variables (create a `.env` at the project root). The app expects the Supabase values to be available to Vite — commonly prefixed with `VITE_`:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+VITE_SUPABASE_URL=your-supabase-url
+VITE_SUPABASE_ANON_KEY=your-anon-key
 ```
+
+3. Run the dev server
+
+```bash
+npm run dev
+```
+
+4. Build for production
+
+```bash
+npm run build
+npm run preview
+```
+
+### Where to look in the code
+
+- `src/pages/Dashboard.tsx` — main app view for managing groups and turns
+- `src/components/CreateGroupModal.tsx` — create groups & invite members
+- `src/hooks/useGroups.tsx` — group-related logic and API wiring
+- `src/hooks/useNotifications.tsx` — notification handling
+- `src/lib/supabase.ts` — Supabase client setup
+
+### Notes
+
+This README is intentionally short. If you want, I can add a Getting Started guide with environment examples, deployment notes, or a screenshot and contribution guidelines.
+
+---
+Made with ❤️ — enjoy keeping track of turns!
+
